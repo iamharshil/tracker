@@ -25,7 +25,7 @@ export default function TrackerProgressBar() {
 
     React.useEffect(() => {
         (async () => {
-            await fetch("/api/tracker/status")
+            await fetch("/api/tracker/status", { cache: "no-cache" })
                 .then((res) => res.json())
                 .then((data) => {
                     setTrackerStatus(data?.data);
@@ -67,6 +67,7 @@ export default function TrackerProgressBar() {
             await fetch("/api/tracker/change-status", {
                 method: "PUT",
                 body: JSON.stringify({ id: trackerStatus?._id || "" }),
+                cache: "no-cache",
             })
                 .then((res) => res.json())
                 .then((data) => {
@@ -87,6 +88,7 @@ export default function TrackerProgressBar() {
             await fetch("/api/tracker/create", {
                 method: "POST",
                 body: JSON.stringify({ title: taskInput }),
+                cache: "no-cache",
             })
                 .then((res) => res.json())
                 .then((data) => {
