@@ -8,16 +8,15 @@ const TrackerSchema = new Schema(
         //     ref: "User",
         //     required: true,
         // },
-        description: { type: String },
+        // description: { type: String },
         status: {
-            // 0: ip progress, 1: paused, 2: completed
+            // 0: running, 1: completed
             type: Number,
             required: true,
             default: 0,
-            enum: [0, 1, 2],
+            enum: [0, 1],
         },
-        endTimestamp: { type: Date },
-        totalDuration: { type: Number },
+        // totalRunTime: { type: Number, default: 0 }, // in milliseconds
     },
     { timestamps: true, versionKey: false },
 );

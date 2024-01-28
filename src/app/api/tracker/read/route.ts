@@ -6,10 +6,9 @@ export async function GET(req: NextRequest) {
     try {
         await Database();
         // if premium user show all data else latest 6.
-        const limit: number = 6;
+        // const limit: number = 6;
 
-        const trackerList = await Tracker.find().limit(limit).sort({ createdAt: -1 });
-        console.log(">>> ~ file: route.ts:12 ~ GET ~ trackerList:", trackerList);
+        const trackerList = await Tracker.find().sort({ createdAt: -1 });
 
         if (trackerList) {
             return NextResponse.json({ success: true, data: trackerList }, { status: 200 });

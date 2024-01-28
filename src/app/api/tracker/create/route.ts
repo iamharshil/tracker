@@ -1,4 +1,5 @@
 import Tracker from "@/models/Tracker.model";
+
 import Database from "@/utils/Database";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -13,12 +14,9 @@ export async function POST(req: NextRequest) {
         }
 
         await Database();
-        const data = { title };
-        const newTracker = await Tracker.create(data);
-        console.log(">>> ~ file: route.ts:18 ~ POST ~ newTracker:", newTracker);
-
+        const newTracker = await Tracker.create({ title });
         if (newTracker) {
-            return NextResponse.json({ success: true }, { status: 201 });
+            return NextResponse.json({ success: true, data: newTracker }, { status: 201 });
         }
 
         return NextResponse.json(
