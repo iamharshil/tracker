@@ -51,7 +51,7 @@ export default function TrackerProgressBar() {
                 })
                 .catch((error) => console.error(error));
         })();
-    }, [currentIntervals]);
+    }, []);
 
     function handleTaskInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         setTaskInput((prev) => e.target.value);
