@@ -17,7 +17,7 @@ export default function Home() {
 
     useEffect(() => {
         (async () => {
-            await fetch("/api/tracker/read", { cache: "no-cache" })
+            await fetch(`${process.env.BASE_URL}/api/tracker/read`, { cache: "no-cache" })
                 .then((res) => res.json())
                 .then((data) => {
                     setTrackerList(data?.data);

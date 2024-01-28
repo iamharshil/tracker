@@ -5,7 +5,6 @@ import moment from "moment";
 import { BsFillPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { IoCheckmarkDone } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
-import { apiCall } from "@/helpers/common";
 
 interface TrackerData {
     _id?: string;
@@ -25,7 +24,7 @@ export default function TrackerProgressBar() {
 
     React.useEffect(() => {
         (async () => {
-            await fetch("/api/tracker/status", { cache: "no-cache" })
+            await fetch(`${process.env.BASE_URL}/api/tracker/status`, { cache: "no-cache" })
                 .then((res) => res.json())
                 .then((data) => {
                     setTrackerStatus(data?.data);
@@ -64,7 +63,7 @@ export default function TrackerProgressBar() {
 
         if (taskStatus) {
             setTrackerLoader(true);
-            await fetch("/api/tracker/change-status", {
+            await fetch(`${process.env.BASE_URL}/api/tracker/change-status`, {
                 method: "PUT",
                 body: JSON.stringify({ id: trackerStatus?._id || "" }),
                 cache: "no-cache",
@@ -85,7 +84,7 @@ export default function TrackerProgressBar() {
                 .catch((error) => console.error(error))
                 .finally(() => setTrackerLoader(false));
         } else {
-            await fetch("/api/tracker/create", {
+            await fetch(`${process.env.BASE_URL}/api/tracker/create`, {
                 method: "POST",
                 body: JSON.stringify({ title: taskInput }),
                 cache: "no-cache",
