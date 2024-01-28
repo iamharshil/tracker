@@ -24,6 +24,7 @@ export default function TrackerProgressBar() {
 
     React.useEffect(() => {
         (async () => {
+            setTrackerLoader(true);
             await fetch(`${process.env.BASE_URL}/api/tracker/status`, { cache: "no-cache" })
                 .then((res) => res.json())
                 .then((data) => {
@@ -49,7 +50,8 @@ export default function TrackerProgressBar() {
                         setCurrentIntervals(interval);
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error) => console.error(error))
+                .finally(() => setTrackerLoader(false));
         })();
     }, []);
 
@@ -61,8 +63,8 @@ export default function TrackerProgressBar() {
         e.preventDefault();
         if (trackerLoader) return;
 
+        setTrackerLoader(true);
         if (taskStatus) {
-            setTrackerLoader(true);
             await fetch(`${process.env.BASE_URL}/api/tracker/change-status`, {
                 method: "PUT",
                 body: JSON.stringify({ id: trackerStatus?._id || "" }),
@@ -70,7 +72,6 @@ export default function TrackerProgressBar() {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    setTrackerLoader(false);
                     setTrackerStatus(null);
                     setTaskStatus(false);
                     setTaskInput("");
@@ -113,7 +114,8 @@ export default function TrackerProgressBar() {
                         setCurrentIntervals(interval);
                     }
                 })
-                .catch((error) => console.error(error));
+                .catch((error) => console.error(error))
+                .finally(() => setTrackerLoader(false));
         }
     }
 
@@ -145,7 +147,7 @@ export default function TrackerProgressBar() {
                 <button
                     type="button"
                     className="bg-[#0D0E11] text-[#F9F7F7] p-1 text-xl rounded-3xl px-4 shadow antialiased focus:outline-[#DBE2EF] hover:bg-[#112D4E] transition-colors duration-300 disabled:bg-[#7A7D8D]"
-                    disabled={!taskStatus && taskInput === ""}
+                    disabled={(!taskStatus && taskInput === "") || trackerLoader}
                     onClick={handleTaskStatus}
                 >
                     {taskStatus ? (
