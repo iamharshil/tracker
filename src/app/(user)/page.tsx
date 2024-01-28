@@ -1,11 +1,13 @@
 "use client";
 
-import Tracker from "@/components/Home/Tracker.component";
+import TrackerProgressBar from "@/components/Home/Tracker.component";
 
 import { useEffect, useState } from "react";
+import TrackerCard from "@/components/Home/TrackerCard.component";
 
 interface TrackerData {
-    name: string;
+    title: string;
+    createdAt: string;
     // Add other properties here if needed
 }
 
@@ -21,32 +23,20 @@ export default function Home() {
         })();
     }, []);
     return (
-        <main className="h-screen w-screen bg-[#F9F7F7] hidden xl:flex">
+        // <main className="h-screen w-screen bg-[#F9F7F7] hidden xl:flex">
+        <main className="h-screen w-screen bg-[#F9F7F7] flex">
             <div className="md:container mx-auto px-4">
                 {/* tracker card */}
-                <Tracker />
+                <TrackerProgressBar />
 
                 {/* tracker list card */}
-                <div className="flex flex-col items-center justify-center w-full h-full bg-white rounded-lg shadow-lg">
-                    <div className="flex flex-col items-center justify-center w-full h-full">
-                        <h1 className="text-2xl font-bold text-gray-700">Tracker List</h1>
-                    </div>
-
+                <div className="text-sm mt-4 p-1 px-4">
+                    <h1>Previous Trackers</h1>
+                </div>
+                <div className="grid grid-cols-4 gap-4">
                     {/* tracker list */}
-                    {trackerList.map((tracker) => (
-                        <div
-                            className="flex flex-col items-center justify-center w-full h-full"
-                            key={tracker.id} // Use a unique identifier from the tracker object as the key
-                        >
-                            {/* tracker list */}
-                            <div className="flex flex-col items-center justify-center w-full h-full">
-                                <div className="flex flex-col items-center justify-center w-full h-full">
-                                    <h1 className="text-2xl font-bold text-gray-700">
-                                        {tracker.title}
-                                    </h1>
-                                </div>
-                            </div>
-                        </div>
+                    {trackerList.map((tracker, index) => (
+                        <TrackerCard tracker={tracker} index={index} key={index + tracker._id} />
                     ))}
                 </div>
             </div>

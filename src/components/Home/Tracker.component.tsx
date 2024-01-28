@@ -7,7 +7,7 @@ import { IoCheckmarkDone } from "react-icons/io5";
 import { FaArrowRight } from "react-icons/fa6";
 import { apiCall } from "@/helpers/common";
 
-export default function Tracker() {
+export default function TrackerProgressBar() {
     const [taskInput, setTaskInput] = React.useState("");
     const [currentTime, setCurrentTime] = React.useState("");
     const [startTime, setStartTime] = React.useState("");
@@ -48,7 +48,7 @@ export default function Tracker() {
         <div className="flex justify-between items-center mt-8 p-2 rounded-3xl border-1 border-slate-200 shadow-[#DBE2EF] shadow">
             <div className="w-2/3">
                 <input
-                    className="w-full bg-slate-200 p-1 text-xl rounded-3xl px-4 shadow antialiased focus:outline-[#DBE2EF]"
+                    className="w-full bg-slate-200 p-1 text-lg rounded-3xl px-4 shadow antialiased focus:outline-[#DBE2EF]"
                     placeholder="Enter task here..."
                     onChange={handleTaskInputChange}
                 />
