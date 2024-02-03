@@ -8,7 +8,7 @@ export const fontSans = FontSans({
 });
 
 import "../globals.css";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
     title: "Tracker App",
@@ -22,8 +22,10 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <Toaster position="top-center" richColors />
-            <body className={cn("", fontSans.variable)}>{children}</body>
+            <body className={cn("", fontSans.variable)}>
+                <Toaster position="top-center" richColors />
+                {children}
+            </body>
         </html>
     );
 }
