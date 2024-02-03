@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
-import "../globals.css";
+import { Inter as FontSans } from "next/font/google";
+import { cn } from "@/lib/utils";
 
-const roboto = Roboto({
-    weight: ["400", "700"],
-    style: ["normal", "italic"],
+export const fontSans = FontSans({
     subsets: ["latin"],
-    display: "swap",
+    variable: "--font-sans",
 });
+
+import "../globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
     title: "Tracker App",
@@ -21,7 +22,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={roboto.className}>{children}</body>
+            <Toaster position="top-center" richColors />
+            <body className={cn("", fontSans.variable)}>{children}</body>
         </html>
     );
 }
