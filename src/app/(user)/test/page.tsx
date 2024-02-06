@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { BsFillPlayFill } from "react-icons/bs";
 import { IoCheckmarkDone } from "react-icons/io5";
+import moment from "moment";
 
 export default function Temp() {
     const [trackerList, setTrackerList] = useState<[]>([]);
@@ -12,6 +13,7 @@ export default function Temp() {
     const [isTrackerRunning, setIsTrackerRunning] = useState<boolean>(false);
     const [trackerId, setTrackerId] = useState<string>("");
     const [trackerInput, setTrackerInput] = useState<string>("");
+    const [difference, setDifference] = useState<moment.Duration | undefined>();
 
     async function getTrackerList() {
         const response = await axios.get(`${process.env.BASE_URL}/api/tracker/read`);
@@ -35,6 +37,13 @@ export default function Temp() {
                 setIsTrackerRunning(true);
                 setTrackerInput(response.data?.data?.title);
                 setTrackerId(response.data?.data?._id);
+
+                const createdAt = moment(response?.data?.data?.createdAt);
+                const curr = moment(new Date().toISOString());
+                // const diff = moment.duration(curr.diff(createdAt));
+                setInterval(() => {
+                    setDifference(moment.duration(moment().diff(createdAt)));
+                }, 1000);
             }
         } else {
             console.log("response error:", response?.status, response?.statusText);
@@ -56,10 +65,8 @@ export default function Temp() {
                 setIsTrackerRunning(false);
                 getTrackerList();
                 return toast.success("Task completed.!!");
-            } else {
-                console.log("response error:", response?.status, response?.statusText);
             }
-            return;
+            return console.log("response error:", response?.status, response?.statusText);
         }
         if (trackerInput === "") {
             return toast.error("Please enter task name.!!");
@@ -107,6 +114,19 @@ export default function Temp() {
                                 </p>
                             )}
                         </div> */}
+                        {isTrackerRunning && difference && (
+                            <div className="flex justify-center items-center gap-2 text-2xl text-zinc-600">
+                                <p className="font-bold font-mono">
+                                    {difference.hours().toString().padStart(2, "0")}h
+                                </p>
+                                <p className="font-bold font-mono">
+                                    {difference.minutes().toString().padStart(2, "0")}m
+                                </p>
+                                <p className="font-bold font-mono">
+                                    {difference.seconds().toString().padStart(2, "0")}s
+                                </p>
+                            </div>
+                        )}
                         <button
                             type="button"
                             className="bg-[#0D0E11] text-[#F9F7F7] p-1 text-xl rounded-3xl px-4 shadow antialiased focus:outline-[#DBE2EF] hover:bg-[#112D4E] transition-colors duration-300 disabled:bg-[#7A7D8D]"
