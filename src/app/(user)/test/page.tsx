@@ -1,7 +1,8 @@
 "use client";
 
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { FaPlay } from "react-icons/fa6";
 import { toast } from "sonner";
 import { BsFillPlayFill } from "react-icons/bs";
 import { IoCheckmarkDone } from "react-icons/io5";
@@ -82,22 +83,17 @@ export default function Temp() {
             console.log("response error:", response?.status, response?.statusText);
         }
     }
-
-    useEffect(() => {
-        getTrackerStatus();
-        getTrackerList();
-    }, []);
     return (
-        <main className="h-screen w-screen bg-[#F8F8F8] flex">
+        <main className="h-screen w-screen bg-[#121212] text-[#a1a1a6] flex">
             <div className="md:container mx-auto px-4">
-                <header className="flex flex-col md:flex-row justify-between items-center mt-8 p-2 bg-[#FEFFFE] rounded-3xl border-1 border-slate-200 shadow-[#F8F8F8] shadow">
-                    <div className="w-full md:w-2/3">
+                <header className="flex flex-col md:flex-row justify-between items-center mt-8 p-2 bg-[#151516] rounded-3xl border-1 border-[#282828] shadow-[#404040] shadow">
+                    <div className="p-0 m-0">
                         <input
-                            className="w-full bg-[#F1F3F5] p-1 text-lg rounded-3xl px-4 shadow antialiased focus:outline-[#0D0E11]"
+                            type="text"
                             placeholder="Enter task here..."
-                            onChange={handleTrackerInputChange}
-                            value={trackerInput}
-                            disabled={loader || isTrackerRunning}
+                            value={titleInput}
+                            onChange={(e) => setTitleInput(e.target.value)}
+                            className="bg-[#121212] px-4 text-2xl rounded-3xl border border-1 border-[#404040] focus:outline-none focus:border-[#282828] focus:ring-1 focus:ring-[#282828]"
                         />
                     </div>
                     <div className="flex justify-between gap-4 items-center">
@@ -129,15 +125,11 @@ export default function Temp() {
                         )}
                         <button
                             type="button"
-                            className="bg-[#0D0E11] text-[#F9F7F7] p-1 text-xl rounded-3xl px-4 shadow antialiased focus:outline-[#DBE2EF] hover:bg-[#112D4E] transition-colors duration-300 disabled:bg-[#7A7D8D]"
-                            disabled={trackerInput === ""}
-                            onClick={handleTrackerButton}
+                            disabled={trackerLoader || titleInput?.length < 1}
+                            onClick={handleTaskSubmit}
+                            className="p-2 bg-[#121212] rounded-full border border-1 border-[#282828] font-extrabold focus:outline-none focus:border-[#282828] focus:ring-1 focus:ring-[#282828]"
                         >
-                            {isTrackerRunning ? (
-                                <IoCheckmarkDone className="m-1 mx-4" />
-                            ) : (
-                                <BsFillPlayFill className="m-1 mx-4" />
-                            )}
+                            <FaPlay className="m-auto" />
                         </button>
                     </div>
                 </header>
